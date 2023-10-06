@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +36,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
+                    LessonView(
+                        title = stringResource(R.string.introduction),
+                        p1 = stringResource(R.string.node_intro_text),
+                        p2 = stringResource(R.string.node_intro_text2)
+                    )
+                  //  GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
                 }
             }
         }
@@ -84,10 +90,53 @@ fun GreetingText(msg: String, from: String, modifier:Modifier = Modifier){
 
 }
 
-@Preview(showBackground = true)
+@Composable
+fun LessonView(title: String, p1: String, p2: String, modifier:Modifier = Modifier){
+    val image = painterResource(R.drawable.header)
+    Column (
+
+    ){
+        Image(
+            painter = image,
+            contentDescription = null,
+        )
+        Text(
+            text = title,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+        Text(
+            text = p1,
+            textAlign = TextAlign.Justify,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        )
+        Text(
+            text = p2,
+            textAlign = TextAlign.Justify,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        )
+    }
+
+}
+
 @Composable
 fun AchievementPreview() {
     AchievementsTheme {
         GreetingImage(stringResource(R.string.congratulation_user), stringResource(R.string.from_pt))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LessonPreview() {
+    AchievementsTheme {
+        LessonView(
+            title = stringResource(R.string.introduction),
+            p1 = stringResource(R.string.node_intro_text),
+            p2 = stringResource(R.string.node_intro_text2)
+        )
     }
 }

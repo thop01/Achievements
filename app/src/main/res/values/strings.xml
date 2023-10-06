@@ -2,4 +2,7 @@
     <string name="app_name">Achievements</string>
     <string name="congratulation_user">Congratulation User</string>
     <string name="from_pt">From PT</string>
+    <string name="introduction">Introductie</string>
+    <string name="node_intro_text">Welkom bij deze lessenserie over Node.js! In deze serie zullen we je kennis laten maken met Node.js, een populaire JavaScript-runtime die vaak wordt gebruikt voor het bouwen van server-side webapplicaties.</string>
+    <string name="node_intro_text2">We beginnen met een introductie tot Node.js en de voordelen ervan ten opzichte van traditionele server-side technologieën. Vervolgens zullen we dieper ingaan op het gebruik van Node.js en de belangrijkste concepten en functies die je nodig hebt om krachtige en schaalbare webapplicaties te bouwen. We zullen ook verschillende hulpmiddelen en frameworks onderzoeken die kunnen worden gebruikt in combinatie met Node.js, zoals Express en Socket.IO. Of je nu nieuw bent in de wereld van webontwikkeling of al enige ervaring hebt met JavaScript, deze lessenserie zal je helpen om je kennis van Node.js te vergroten en je vaardigheden te ontwikkelen als webontwikkelaar. Laten we aan de slag gaan!</string>
 </resources>
