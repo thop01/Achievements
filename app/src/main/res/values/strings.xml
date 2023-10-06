@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Achievements</string>
+    <string name="congratulation_user">Congratulation User</string>
+    <string name="from_pt">From PT</string>
 </resources>
