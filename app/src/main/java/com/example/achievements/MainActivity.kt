@@ -3,6 +3,7 @@ package com.example.achievements
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.ColorRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,15 +14,31 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import com.example.achievements.ui.theme.AchievementsTheme
 
 class MainActivity : ComponentActivity() {
-
+//    Spacer(modifier = Modifier.height(150.dp))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -40,7 +57,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    QuadrantView()
+
+//                    BusinessCard(
+//                        profilePicture = R.drawable.win_20230411_09_09_03_pro,
+//                        fullName = "Pascal Thong",
+//                        subTitle = "Agile Software Developer",
+//                        socialMedia = "@pascalthong",
+//                        email = "pascalthong@gmail.com"
+//                    )
+
+                    //QuadrantView()
                   //  TaskCompleteScreen()
 //                    LessonView(
 //                        title = stringResource(R.string.introduction),
@@ -48,9 +74,75 @@ class MainActivity : ComponentActivity() {
 //                        p2 = stringResource(R.string.node_intro_text2)
 //                    )
                   //  GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
+                    LessonSerieView()
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BusinessCard(profilePicture: Int, fullName: String, subTitle : String, socialMedia: String, email: String, modifier: Modifier = Modifier){
+    val image = painterResource(id = profilePicture)
+    val imageShape = RoundedCornerShape(16.dp)
+    Box (
+        modifier = modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.darkblue))
+
+
+    ){
+        Column (
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Image(
+                painter = image,
+                contentDescription = "My profile picture",
+                Modifier
+                    .width(300.dp)
+                    .padding(20.dp)
+                    .clip(imageShape)
+
+            )
+            Text(text = fullName, fontSize = 32.sp, color = Color.White )
+            Text(text = subTitle, fontSize = 20.sp, color = Color.White)
+        }
+        Column (
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ){
+            Row (
+                modifier = Modifier.width(250.dp)
+            ){
+                Icon(
+                    imageVector = Icons.Rounded.AccountCircle,
+                    contentDescription = "L",
+                    tint = Color.White,
+                    modifier = Modifier.padding(end = 10.dp)
+
+                )
+                Text(text = socialMedia, fontSize = 16.sp, color = Color.White)
+            }
+            Row (
+                modifier = Modifier
+                    .width(250.dp)
+                    .padding(bottom = 60.dp)
+            ){
+                Icon(
+                    imageVector = Icons.Rounded.Email,
+                    contentDescription = "L",
+                    tint = Color.White,
+                    modifier = Modifier.padding(end = 10.dp)
+                )
+                Text(text = email, fontSize = 16.sp, color = Color.White)
+            }
+
+        }
+
     }
 }
 
@@ -110,11 +202,7 @@ fun QuadrantView() {
 
 @Composable
 private fun InfoCard(
-    title: String,
-    description: String,
-    backgroundColor: Color,
-    modifier: Modifier = Modifier
-) {
+    title: String, description: String, backgroundColor: Color,  modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -133,7 +221,6 @@ private fun InfoCard(
         )
     }
 }
-
 
 @Composable
 fun GreetingText(msg: String, from: String, modifier:Modifier = Modifier){
@@ -156,10 +243,12 @@ fun GreetingText(msg: String, from: String, modifier:Modifier = Modifier){
     }
 
 }
-
+//var pageTitle: MutableState<String> = mutableStateOf("Introduction");
+//var pageTitle by remember { mutableStateOf("") }
 @Composable
-fun LessonView(title: String, p1: String, p2: String, modifier:Modifier = Modifier){
+fun LessonView(pageTitle: String, p1: String, p2: String, modifier:Modifier = Modifier){
     val image = painterResource(R.drawable.header)
+
     Column (
 
     ){
@@ -168,7 +257,7 @@ fun LessonView(title: String, p1: String, p2: String, modifier:Modifier = Modifi
             contentDescription = null,
         )
         Text(
-            text = title,
+            text = pageTitle,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp)
@@ -185,6 +274,7 @@ fun LessonView(title: String, p1: String, p2: String, modifier:Modifier = Modifi
             fontSize = 16.sp,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         )
+
     }
 
 }
@@ -231,9 +321,86 @@ fun AchievementPreview() {
 //                p2 = stringResource(R.string.node_intro_text2)
 //            )
 
-        TaskCompleteScreen()
-        QuadrantView()
+//        TaskCompleteScreen()
+//        QuadrantView()
+//        BusinessCard(
+//            profilePicture = R.drawable.win_20230411_09_09_03_pro,
+//            fullName = "Pascal Thong",
+//            subTitle = "Agile Software Developer",
+//            socialMedia = "@pascalthong",
+//            email = "pascalthong@gmail.com"
+//        )
+        LessonSerieView()
+
+    }
+}
+
+@Composable
+fun LessonSerieView(){
+    var pageTitle by remember { mutableStateOf("?? Introduction") }
+        LessonView(
+                pageTitle = pageTitle, // stringResource(R.string.introduction),
+                p1 = stringResource(R.string.node_intro_text),
+                p2 = stringResource(R.string.node_intro_text2)
+            )
+
+        Column (
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Button(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(10.dp),
+                    onClick = {
+                             pageTitle = "Introduction"
+                    }) {
+                    Text(text = "Previous")
+                }
+                Button(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(10.dp),
+                    onClick = {
+                          pageTitle = "Internal Modules"
+                    }) {
+                    Text(text = "Next")
+                }
+            }
+        }
 
 
+
+
+
+}
+
+@Composable
+fun NextAndPrevButtons(modifier : Modifier = Modifier){
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ){
+        Button(
+            modifier = Modifier
+                .weight(1f)
+                .padding(10.dp),
+            onClick = {
+           //     pageTitle = "Introduction"
+            }) {
+            Text(text = "Previous")
+        }
+        Button(
+            modifier = Modifier
+                .weight(1f)
+                .padding(10.dp),
+            onClick = {
+              //  pageTitle = "Internal Modules"
+            }) {
+            Text(text = "Next")
+        }
     }
 }
