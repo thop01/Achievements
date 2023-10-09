@@ -11,4 +11,23 @@
     <string name="lt_landbouw">Landbouw</string>
     <string name="lt_techniek">Techniek</string>
     <string name="lt_zorg">Zorg &amp; Welzijn</string>
+
+        <string name="subject_getting_started">Start</string>
+        <string name="subject_fundamentals">Fundament</string>
+        <string name="subject_oop">OOP</string>
+        <string name="subject_internal_modules">In-Modules</string>
+        <string name="subject_external_modules">Ex-Modules</string>
+        <string name="subject_webservice">Webservice</string>
+        <string name="subject_security">Security</string>
+        <string name="subject_deployment">Deployment</string>
+
+<!--    <string name="subject_getting_started">Getting started</string>-->
+<!--    <string name="subject_fundamentals">Fundamentals</string>-->
+<!--    <string name="subject_oop">Object-Oriented Programming (OOP)</string>-->
+<!--    <string name="subject_internal_modules">Internal Modules</string>-->
+<!--    <string name="subject_external_modules">External Modules</string>-->
+<!--    <string name="subject_webservice">Webservice</string>-->
+<!--    <string name="subject_security">Security</string>-->
+<!--    <string name="subject_deployment">Deployment</string>-->
+
 </resources>

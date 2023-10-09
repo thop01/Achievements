@@ -10,19 +10,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -42,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.achievements.data.DataSource
 import com.example.achievements.model.LessonTheme
+import com.example.achievements.model.Topic
 import com.example.achievements.ui.theme.AchievementsTheme
 
 class MainActivity : ComponentActivity() {
@@ -73,16 +81,17 @@ class MainActivity : ComponentActivity() {
 //                        email = "pascalthong@gmail.com"
 //                    )
 
-                    //QuadrantView()
-                  //  TaskCompleteScreen()
+                 //   QuadrantView()
+               //     TaskCompleteScreen()
 //                    LessonView(
-//                        title = stringResource(R.string.introduction),
+//                        pageTitle = stringResource(R.string.introduction),
 //                        p1 = stringResource(R.string.node_intro_text),
 //                        p2 = stringResource(R.string.node_intro_text2)
 //                    )
-                  //  GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
-                   // LessonSerieView()
-                    LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
+                   //GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
+                  //  LessonSerieView()
+                   // LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
+                    TopicGrid()
                 }
             }
         }
@@ -131,7 +140,6 @@ fun BusinessCard(profilePicture: Int, fullName: String, subTitle : String, socia
                     contentDescription = "L",
                     tint = Color.White,
                     modifier = Modifier.padding(end = 10.dp)
-
                 )
                 Text(text = socialMedia, fontSize = 16.sp, color = Color.White)
             }
@@ -342,10 +350,75 @@ fun InfoCard(  title: String, description: String, backgroundColor: Color,  modi
             // LessonSerieView()
             //     LessonThemeCard(LessonTheme(R.string.lt_techniek, R.drawable.header))
 
-            LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
+            //LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
+
+//            TopicCard(Topic(
+//                R.string.subject_getting_started,
+//                3,
+//                R.drawable.n1) )
+            TopicGrid()
 
         }
     }
+
+@Composable
+fun TopicGrid(modifier: Modifier = Modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
+
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
+    ) {
+        items(DataSource().loadTopics()) { topic ->
+            TopicCard(topic)
+        }
+    }
+}
+@Composable
+fun TopicCard(topic: Topic, modifier: Modifier = Modifier) {
+    Card  {
+        Row {
+            Box {
+                Image(
+                    painter = painterResource(id = topic.imageResourceId),
+                    contentDescription = null,
+                    modifier = modifier
+                        .size(width = 68.dp, height = 68.dp)
+                        .aspectRatio(1f),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            Column {
+                Text(
+                    text = stringResource(id = topic.stringResourceId),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(R.dimen.padding_medium),
+                        top = dimensionResource(R.dimen.padding_medium),
+                        end = dimensionResource(R.dimen.padding_medium),
+                        bottom = dimensionResource(R.dimen.padding_small)
+                    )
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Rounded.Person,
+                        contentDescription = "hours",
+                      //  tint = Color.White,
+                        modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_medium))
+                    )
+
+                    Text(
+                        text = topic.hours.toString(),
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_small))
+                    )
+                }
+            }
+        }
+    }
+}
 
 
     @Composable
