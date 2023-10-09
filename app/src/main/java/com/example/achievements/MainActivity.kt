@@ -13,14 +13,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +49,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.achievements.data.DataSource
+import com.example.achievements.model.LessonTheme
 import com.example.achievements.ui.theme.AchievementsTheme
 
 class MainActivity : ComponentActivity() {
@@ -74,7 +81,8 @@ class MainActivity : ComponentActivity() {
 //                        p2 = stringResource(R.string.node_intro_text2)
 //                    )
                   //  GreetingImage(msg = stringResource(R.string.congratulation_user), from = stringResource(R.string.from_pt))
-                    LessonSerieView()
+                   // LessonSerieView()
+                    LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
                 }
             }
         }
@@ -201,8 +209,7 @@ fun QuadrantView() {
 }
 
 @Composable
-private fun InfoCard(
-    title: String, description: String, backgroundColor: Color,  modifier: Modifier = Modifier) {
+fun InfoCard(  title: String, description: String, backgroundColor: Color,  modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -222,93 +229,95 @@ private fun InfoCard(
     }
 }
 
-@Composable
-fun GreetingText(msg: String, from: String, modifier:Modifier = Modifier){
-    Column (
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier.padding(20.dp)
-    ) {
-        Text(
-            text = msg,
-            fontSize = 40.sp,
-            lineHeight = 42.sp,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = from, fontSize = 20.sp,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.CenterHorizontally)
-        )
+
+    @Composable
+    fun GreetingText(msg: String, from: String, modifier: Modifier = Modifier) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier.padding(20.dp)
+        ) {
+            Text(
+                text = msg,
+                fontSize = 40.sp,
+                lineHeight = 42.sp,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = from, fontSize = 20.sp,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(alignment = Alignment.CenterHorizontally)
+            )
+        }
+
     }
 
-}
-//var pageTitle: MutableState<String> = mutableStateOf("Introduction");
+    //var pageTitle: MutableState<String> = mutableStateOf("Introduction");
 //var pageTitle by remember { mutableStateOf("") }
-@Composable
-fun LessonView(pageTitle: String, p1: String, p2: String, modifier:Modifier = Modifier){
-    val image = painterResource(R.drawable.header)
+    @Composable
+    fun LessonView(pageTitle: String, p1: String, p2: String, modifier: Modifier = Modifier) {
+        val image = painterResource(R.drawable.header)
 
-    Column (
+        Column(
 
-    ){
-        Image(
-            painter = image,
-            contentDescription = null,
-        )
-        Text(
-            text = pageTitle,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(16.dp)
-        )
-        Text(
-            text = p1,
-            textAlign = TextAlign.Justify,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-        )
-        Text(
-            text = p2,
-            textAlign = TextAlign.Justify,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-        )
+        ) {
+            Image(
+                painter = image,
+                contentDescription = null,
+            )
+            Text(
+                text = pageTitle,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = p1,
+                textAlign = TextAlign.Justify,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            )
+            Text(
+                text = p2,
+                textAlign = TextAlign.Justify,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            )
+
+        }
 
     }
 
-}
-
-@Composable
-fun TaskCompleteScreen(modifier : Modifier = Modifier){
-    val image = painterResource(id = R.drawable.ic_task_completed)
-    Column (
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-    ){
-        Image(
-            painter = image,
-            contentDescription = null
-        )
-        Text(
-            text = "Task Completed",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 24.dp, bottom= 8.dp)
-        )
-        Text(
-            text = "Nice work !",
-            fontWeight = FontWeight.Bold,
-        )
+    @Composable
+    fun TaskCompleteScreen(modifier: Modifier = Modifier) {
+        val image = painterResource(id = R.drawable.ic_task_completed)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+        ) {
+            Image(
+                painter = image,
+                contentDescription = null
+            )
+            Text(
+                text = "Task Completed",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 24.dp, bottom = 8.dp)
+            )
+            Text(
+                text = "Nice work !",
+                fontWeight = FontWeight.Bold,
+            )
+        }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun AchievementPreview() {
-    AchievementsTheme {
+    @Preview(showBackground = true)
+    @Composable
+    fun AchievementPreview() {
+        AchievementsTheme {
 
 //            GreetingImage(
 //                stringResource(R.string.congratulation_user),
@@ -330,34 +339,95 @@ fun AchievementPreview() {
 //            socialMedia = "@pascalthong",
 //            email = "pascalthong@gmail.com"
 //        )
-        LessonSerieView()
+            // LessonSerieView()
+            //     LessonThemeCard(LessonTheme(R.string.lt_techniek, R.drawable.header))
 
+            LessonThemeList(lessonThemeList = DataSource().loadLessonThemes())
+
+        }
     }
-}
 
-@Composable
-fun LessonSerieView(){
-    var pageTitle by remember { mutableStateOf("?? Introduction") }
-        LessonView(
+
+    @Composable
+    fun LessonThemeCard(lessonTheme: LessonTheme, modifier: Modifier = Modifier) {
+        Card(modifier = modifier) {
+            Column {
+                Image(
+                    painter = painterResource(lessonTheme.imageResourceId),
+                    contentDescription = stringResource(lessonTheme.stringResourceId),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    text = LocalContext.current.getString(lessonTheme.stringResourceId),
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun LessonThemeList(lessonThemeList: List<LessonTheme>, modifier: Modifier = Modifier) {
+        LazyColumn(modifier = modifier) {
+            items(lessonThemeList) { item ->
+                LessonThemeCard(lessonTheme = item, modifier = Modifier.padding(8.dp))
+            }
+        }
+    }
+
+        @Composable
+        fun LessonSerieView() {
+            var pageTitle by remember { mutableStateOf("?? Introduction") }
+            LessonView(
                 pageTitle = pageTitle, // stringResource(R.string.introduction),
                 p1 = stringResource(R.string.node_intro_text),
                 p2 = stringResource(R.string.node_intro_text2)
             )
 
-        Column (
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            Column(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp),
+                        onClick = {
+                            pageTitle = "Introduction"
+                        }) {
+                        Text(text = "Previous")
+                    }
+                    Button(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp),
+                        onClick = {
+                            pageTitle = "Internal Modules"
+                        }) {
+                        Text(text = "Next")
+                    }
+                }
+            }
+        }
+
+        @Composable
+        fun NextAndPrevButtons(modifier: Modifier = Modifier) {
             Row(
                 modifier = Modifier.fillMaxWidth()
-            ){
+            ) {
                 Button(
                     modifier = Modifier
                         .weight(1f)
                         .padding(10.dp),
                     onClick = {
-                             pageTitle = "Introduction"
+                        //     pageTitle = "Introduction"
                     }) {
                     Text(text = "Previous")
                 }
@@ -366,7 +436,7 @@ fun LessonSerieView(){
                         .weight(1f)
                         .padding(10.dp),
                     onClick = {
-                          pageTitle = "Internal Modules"
+                        //  pageTitle = "Internal Modules"
                     }) {
                     Text(text = "Next")
                 }
@@ -375,32 +445,3 @@ fun LessonSerieView(){
 
 
 
-
-
-}
-
-@Composable
-fun NextAndPrevButtons(modifier : Modifier = Modifier){
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ){
-        Button(
-            modifier = Modifier
-                .weight(1f)
-                .padding(10.dp),
-            onClick = {
-           //     pageTitle = "Introduction"
-            }) {
-            Text(text = "Previous")
-        }
-        Button(
-            modifier = Modifier
-                .weight(1f)
-                .padding(10.dp),
-            onClick = {
-              //  pageTitle = "Internal Modules"
-            }) {
-            Text(text = "Next")
-        }
-    }
-}
